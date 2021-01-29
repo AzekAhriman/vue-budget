@@ -1,22 +1,24 @@
 <template>
   <header class="header">
-    <div class="header-logo">
+    <router-link class="header-logo" to="/">
       <img class="logo" src="../assets/logo.jpeg" alt="logo">
       <div class="header-logo-text">
         <p class="header-logo-name">Семейный бюджет</p>
         <p class="header-logo-motivation">Иначе мы умрем с голоду...</p>
       </div>
-    </div>
+    </router-link>
     <div class="header-name">
       <h1>{{ this.$route.meta.title ?  this.$route.meta.title : 'State for ' + this.$route.params.date}}</h1>
     </div>
     <div class="header-buttons">
       <div class="header-buttons-left">
-        <router-link class="add-expenses" to="/">+ Add expenses</router-link>
+        <router-link v-if="this.$route.name !== 'Edit'" class="add-expenses" to="/edit">+ Add expenses</router-link>
+        <button v-if="this.$route.name === 'Edit'">Save</button>
+        <button v-if="this.$route.name === 'Edit'">Cancel</button>
       </div>
       <div class="header-buttons-right">
         <router-link class="show-history" to="/history/1">Show history</router-link>
-        <router-link class="new-month" to="/edit">New month</router-link>
+        <router-link class="new-month" to="/edit">New month +</router-link>
       </div>
     </div>
   </header>
@@ -30,7 +32,6 @@ export default Vue.extend({
 });
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   h1 {
    margin: 0;
@@ -53,6 +54,7 @@ export default Vue.extend({
     width: 80px;
     display: flex;
     align-items: center;
+    color: black;
   }
   .logo {
     width: 80px;
@@ -78,6 +80,13 @@ export default Vue.extend({
     width: 100%;
     display: flex;
     justify-content: space-between;
+  }
+  .header-buttons-left {
+    display: flex;
+  }
+  .header-buttons-right {
+    display: flex;
+    align-items: center;
   }
   .add-expenses {
     padding: 5px;

@@ -15,9 +15,14 @@
   padding: 0;
   text-decoration: none;
 }
+html {
+  position: relative;
+  min-height: 100%;
+}
 body {
   display: flex;
   justify-content: center;
+  height: 100vh;
 }
 #app {
   width: 100%;

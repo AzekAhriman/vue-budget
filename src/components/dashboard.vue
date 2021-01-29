@@ -24,8 +24,9 @@ export default Vue.extend({
     return {
       report: {
         'Rent' : {
-          'Grocery' : 1000,
-          'Outdoor' : 1000,
+          'House rent' : 1000,
+          'Wastes' : 1000,
+          'Water' : 1000,
           'Etc' : 1000,
         },
         'Food' : {
