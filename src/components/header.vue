@@ -3,8 +3,8 @@
     <router-link class="header-logo" to="/">
       <img class="logo" src="../assets/logo.jpeg" alt="logo">
       <div class="header-logo-text">
-        <p class="header-logo-name">Семейный бюджет</p>
-        <p class="header-logo-motivation">Иначе мы умрем с голоду...</p>
+        <p class="header-logo-name">Family budget</p>
+        <p class="header-logo-motivation">Else we starve to death...</p>
       </div>
     </router-link>
     <div class="header-name">

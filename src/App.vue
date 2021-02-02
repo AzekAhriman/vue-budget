@@ -1,9 +1,5 @@
 <template>
   <div id="app">
-    <div id="nav" v-if="false">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/edit/1">About</router-link>
-    </div>
     <router-view/>
   </div>
 </template>
@@ -17,25 +13,16 @@
 }
 html {
   position: relative;
-  min-height: 100%;
+  min-height: 100vh;
 }
 body {
   display: flex;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
 }
 #app {
   width: 100%;
   display: flex;
   justify-content: center;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
 }
 </style>
