@@ -11,15 +11,18 @@
   padding: 0;
   text-decoration: none;
 }
+
 html {
   position: relative;
   min-height: 100vh;
 }
+
 body {
   display: flex;
   justify-content: center;
   min-height: 100vh;
 }
+
 #app {
   width: 100%;
   display: flex;
