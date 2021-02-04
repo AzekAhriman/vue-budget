@@ -106,7 +106,7 @@ export default Vue.extend({
       }
     }
   },
-  mounted() {
+  created() {
     if (this.$route.name == 'Edit') {
       axios.get('http://localhost:3000/api/records/' + this.$route.params.date)
           .then((response: Record<string, any>) => {
@@ -119,26 +119,6 @@ export default Vue.extend({
             console.log(error);
           })
     }
-  },
-  beforeRouteEnter (to, from, next) {
-    next(vm => {
-      if (vm.$route.name == 'Edit') {
-        axios.get('http://localhost:3000/api/records/' + vm.$route.params.date)
-            .then((response: Record<string, any>) => {
-              vm.blocks = response.data.data.blocks;
-              vm.budgetCategories = response.data.data.budgetCategories;
-              vm.budgetValues = response.data.data.budgetValues;
-              console.log(response.data.data);
-            })
-            .catch((error: any) => {
-              console.log(error);
-            })
-      } else {
-        vm.blocks = [];
-        vm.budgetCategories = [];
-        vm.budgetValues = [];
-      }
-    })
   }
 });
 </script>
@@ -184,6 +164,9 @@ export default Vue.extend({
 .editor-data-block-name {
   font-size: 18px;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  height: 35px;
 }
 
 .editor-data-block-table {

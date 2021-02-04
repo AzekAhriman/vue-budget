@@ -13,7 +13,9 @@
           </div>
         </div>
       </div>
-      <div class="dashboard-charts"></div>
+      <div class="dashboard-charts">
+        <Charts :data="chartsData" :options="chartsOptions" />
+      </div>
     </main>
     <Footer/>
   </div>
@@ -22,6 +24,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Header from '@/components/header.vue';
+import Charts from '@/components/charts.vue';
 import Footer from '@/components/footer.vue';
 import axios from "axios";
 
@@ -29,18 +32,38 @@ export default Vue.extend({
   name: 'Home',
   components: {
     Header,
+    Charts,
     Footer
   },
   data() {
     return {
       blocks: [] as Array<string>,
       budgetCategories: [] as Array<Array<string>>,
-      budgetValues: [] as Array<Array<number>>
+      budgetValues: [] as Array<Array<number>>,
+      chartsData: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      chartsOptions: [
+        {
+          label: 'Data One',
+          backgroundColor: '#f87979',
+          data: [40, 39, 10, 40, 39, 80, 40]
+        }
+      ]
     }
   },
   created() {
     if (this.$route.name == 'Home') {
       axios.get('http://localhost:3000/api/records/' + (new Date().getMonth() + 1) + '-' + new Date().getFullYear())
+          .then((response: Record<string, any>) => {
+            this.blocks = response.data.data.blocks;
+            this.budgetCategories = response.data.data.budgetCategories;
+            this.budgetValues = response.data.data.budgetValues;
+            console.log(response.data.data);
+          })
+          .catch((error: any) => {
+            console.log(error);
+          })
+    } else if (this.$route.name == 'History') {
+      axios.get('http://localhost:3000/api/records/' + this.$route.params.date)
           .then((response: Record<string, any>) => {
             this.blocks = response.data.data.blocks;
             this.budgetCategories = response.data.data.budgetCategories;

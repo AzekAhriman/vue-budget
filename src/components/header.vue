@@ -14,12 +14,18 @@
     </div>
     <div class="header-buttons">
       <div class="header-buttons-left">
-        <router-link v-if="this.$route.name === 'Home' || this.$route.name === 'History'" class="add-expenses" to="/edit/2-2021">+ Add expenses</router-link>
+        <router-link v-if="this.$route.name === 'History'" class="add-expenses" :to="'/edit/' + this.$route.params.date">+ Add expenses</router-link>
+        <router-link v-if="this.$route.name === 'Home'" class="add-expenses" :to="'/edit/' + (new Date().getMonth() + 1) + '-' + new Date().getFullYear()">+ Add expenses</router-link>
         <button v-if="this.$route.name === 'Edit' || this.$route.name === 'Create'" @click="saveChanges">Save</button>
         <button v-if="this.$route.name === 'Edit' || this.$route.name === 'Create'" @click="cancelChanges">Cancel</button>
       </div>
       <div class="header-buttons-right">
-        <router-link class="show-history" to="/history/1">Show history</router-link>
+        <div class="show-history">
+          <p @click="dropdownOpen = !dropdownOpen">Show history</p>
+          <div v-if="dropdownOpen" class="show-history-dropdown">
+            <router-link v-for="(item, index) in historyList" :key="index" :to="'/history/' + item">{{ item }}</router-link>
+          </div>
+        </div>
         <router-link class="new-month" to="/create">Next month +</router-link>
       </div>
     </div>
@@ -28,9 +34,16 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import axios from "axios";
 
 export default Vue.extend({
   name: 'Header',
+  data() {
+    return {
+      dropdownOpen: false,
+      historyList: [] as Array<string>
+    }
+  },
   methods: {
     saveChanges() {
       this.$emit('saveChanges');
@@ -38,7 +51,17 @@ export default Vue.extend({
     cancelChanges() {
       this.$emit('cancelChanges');
     },
-  }
+  },
+  created() {
+    axios.get('http://localhost:3000/api/records/')
+        .then((response: Record<string, any>) => {
+          this.historyList = response.data.map((item: { id: string }) => item.id)
+          console.log(response.data);
+        })
+        .catch((error: any) => {
+          console.log(error);
+        })
+  },
 });
 </script>
 
@@ -117,7 +140,34 @@ h1 {
 
 .show-history {
   margin-right: 20px;
+  position: relative;
+  cursor: pointer;
+}
+
+.show-history-dropdown {
+  cursor: default;
+  position: absolute;
+  top: 25px;
+  left: 4px;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  background: azure;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 78px;
+  padding: 10px;
+}
+
+.show-history-dropdown a {
+  margin-top: 10px;
   text-decoration: underline;
+}
+
+.show-history-dropdown a:first-of-type {
+  margin-top: 0;
 }
 
 .new-month {

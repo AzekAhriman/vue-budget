@@ -11,12 +11,14 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "chart.js": "^2.9.4",
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.11.14",
     "morgan": "^1.10.0",
     "vue": "^2.6.11",
+    "vue-chartjs": "^3.5.1",
     "vue-router": "^3.2.0"
   },
   "devDependencies": {
