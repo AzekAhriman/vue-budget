@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="dashboard-charts">
-        <Charts :data="chartsData" :options="chartsOptions" />
+        <Charts :data="blocks" :options="chartsOptions" />
       </div>
     </main>
     <Footer/>
@@ -43,9 +43,9 @@ export default Vue.extend({
       chartsData: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
       chartsOptions: [
         {
-          label: 'Data One',
+          label: 'Expenses',
           backgroundColor: '#f87979',
-          data: [40, 39, 10, 40, 39, 80, 40]
+          data: [40, 20]
         }
       ]
     }

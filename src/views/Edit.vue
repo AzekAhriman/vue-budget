@@ -135,6 +135,7 @@ export default Vue.extend({
   margin-top: 50px;
   display: grid;
   align-items: flex-start;
+  grid-template-rows: max-content;
   grid-template-columns: 1fr 1fr;
   grid-gap: 40px 60px;
   padding: 0 40px;
