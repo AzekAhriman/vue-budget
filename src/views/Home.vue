@@ -14,7 +14,16 @@
         </div>
       </div>
       <div class="dashboard-charts">
-        <Charts :data="blocks" :options="chartsOptions" />
+        <Charts ref="chart" :chart-data="chartsOptions" :chart-type="chartType"  />
+        <div class="dashboard-charts-buttons">
+          <button class="dashboard-charts-button" @click="chartType = 'bar'">Bar</button>
+          <button class="dashboard-charts-button" @click="chartType = 'line'">Line</button>
+          <button class="dashboard-charts-button" @click="chartType = 'doughnut'">Doughnut</button>
+          <button class="dashboard-charts-button" @click="chartType = 'pie'">Pie</button>
+          <button class="dashboard-charts-button" @click="chartType = 'radar'">Radar</button>
+          <button class="dashboard-charts-button" @click="chartType = 'polarArea'">Polar</button>
+          <button class="dashboard-charts-button" @click="chartType = 'bubble'">Bubble</button>
+        </div>
       </div>
     </main>
     <Footer/>
@@ -40,24 +49,35 @@ export default Vue.extend({
       blocks: [] as Array<string>,
       budgetCategories: [] as Array<Array<string>>,
       budgetValues: [] as Array<Array<number>>,
-      chartsData: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      chartsOptions: [
-        {
-          label: 'Expenses',
-          backgroundColor: '#f87979',
-          data: [40, 20]
-        }
-      ]
+      chartsOptions: {
+        labels: [] as Array<string>,
+        datasets: [
+          {
+            label: 'Expenses',
+            backgroundColor: '#f87979',
+            data: [] as Array<number>
+          }
+        ]
+      },
+      chartType: 'Bar'
     }
   },
-  created() {
+  mounted() {
+    console.log(this.$refs.chart);
     if (this.$route.name == 'Home') {
       axios.get('http://localhost:3000/api/records/' + (new Date().getMonth() + 1) + '-' + new Date().getFullYear())
           .then((response: Record<string, any>) => {
+            let sum = 0;
             this.blocks = response.data.data.blocks;
             this.budgetCategories = response.data.data.budgetCategories;
             this.budgetValues = response.data.data.budgetValues;
-            console.log(response.data.data);
+            this.chartsOptions.labels = response.data.data.blocks;
+            this.budgetValues.forEach(section => {
+              sum = 0;
+              section.forEach(num => sum = sum + num);
+              this.chartsOptions.datasets[0].data.push(sum);
+            })
+            this.$refs.chart.updateChart();
           })
           .catch((error: any) => {
             console.log(error);
@@ -65,10 +85,17 @@ export default Vue.extend({
     } else if (this.$route.name == 'History') {
       axios.get('http://localhost:3000/api/records/' + this.$route.params.date)
           .then((response: Record<string, any>) => {
+            let sum = 0;
             this.blocks = response.data.data.blocks;
             this.budgetCategories = response.data.data.budgetCategories;
             this.budgetValues = response.data.data.budgetValues;
-            console.log(response.data.data);
+            this.chartsOptions.labels = response.data.data.blocks;
+            this.budgetValues.forEach(section => {
+              sum = 0;
+              section.forEach(num => sum = sum + num);
+              this.chartsOptions.datasets[0].data.push(sum);
+            })
+            this.$refs.chart.updateChart();
           })
           .catch((error: any) => {
             console.log(error);
@@ -155,5 +182,10 @@ export default Vue.extend({
 .dashboard-data-block-table-line-value {
   width: 50%;
   padding: 5px;
+}
+.dashboard-charts-buttons {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-around;
 }
 </style>

@@ -9,7 +9,7 @@
           <div class="editor-data-block-table">
             <div class="editor-data-block-table-line" v-for="(value, index) in budgetCategories[blockIndex]" :key="index">
               <div class="editor-data-block-table-line-name"><label><input type="text" v-model="budgetCategories[blockIndex][index]"></label></div>
-              <div class="editor-data-block-table-line-value"><label><input type="text" v-model="budgetValues[blockIndex][index]"></label></div>
+              <div class="editor-data-block-table-line-value"><label><input type="number" v-model.number="budgetValues[blockIndex][index]"></label></div>
               <button class="delete-line" @click="deleteLine(blockIndex, index)">x</button>
             </div>
           </div>

@@ -1,11 +1,28 @@
 <script>
-import { Line } from 'vue-chartjs'
+import VueCharts from 'vue-chartjs'
 
 export default {
-  extends: Line,
-  props: ['data', 'options'],
+  extends: VueCharts.Bar,
+  mixins: [VueCharts.mixins.reactiveProp],
+  props: ['chartData', 'chartType'],
   mounted () {
-    this.renderChart({labels: this.data, datasets: this.options})
+    console.log(this.chartData);
+    this.renderChart(this.chartData, {responsive: true, maintainAspectRatio: false});
+  },
+  watch: {
+    chartType (newVal) {
+      this.$data._chart.destroy();
+      setTimeout(() => {
+        this.renderChart(this.chartData, {responsive: true, maintainAspectRatio: false})
+        this.$data._chart.config.type = newVal;
+        this.updateChart();
+      }, 1);
+    }
+  },
+  methods: {
+    updateChart () {
+      this.$data._chart.update();
+    },
   }
 }
 </script>

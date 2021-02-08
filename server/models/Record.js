@@ -3,7 +3,11 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const Record = new Schema({
-    data: Object,
+    data: {
+        blocks: Array,
+        budgetCategories: Array,
+        budgetValues: Array
+    },
     id: {type: String, required: true, unique: true}
 });
 

@@ -151,14 +151,16 @@ h1 {
   left: 4px;
   z-index: 999;
   display: flex;
-  justify-content: center;
   text-align: center;
   flex-direction: column;
   background: azure;
   border: 1px solid black;
   border-radius: 5px;
-  width: 78px;
+  width: 90px;
   padding: 10px;
+  font-size: 14px;
+  height: 120px;
+  overflow: auto;
 }
 
 .show-history-dropdown a {
