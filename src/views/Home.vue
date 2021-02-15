@@ -4,17 +4,17 @@
     <main class="dashboard">
       <div class="dashboard-data">
         <div class="dashboard-data-block" v-for="(block, blockIndex) in blocks" :key="blockIndex">
-          <div class="dashboard-data-block-name">{{ blocks[blockIndex] }}</div>
+          <div class="dashboard-data-block-name">{{ block }}</div>
           <div class="dashboard-data-block-table">
             <div class="dashboard-data-block-table-line" v-for="(value, index) in budgetCategories[blockIndex]" :key="index">
-              <div class="dashboard-data-block-table-line-name">{{ budgetCategories[blockIndex][index] }}</div>
+              <div class="dashboard-data-block-table-line-name">{{ value }}</div>
               <div class="dashboard-data-block-table-line-value">{{ budgetValues[blockIndex][index] }}</div>
             </div>
           </div>
         </div>
       </div>
       <div class="dashboard-charts">
-        <Charts ref="chart" :chart-data="chartsOptions" :chart-type="chartType"  />
+        <Charts ref="charts" :chart-data="chartsOptions" :chart-type="chartType"  />
         <div class="dashboard-charts-buttons">
           <button class="dashboard-charts-button" @click="chartType = 'bar'">Bar</button>
           <button class="dashboard-charts-button" @click="chartType = 'line'">Line</button>
@@ -63,7 +63,6 @@ export default Vue.extend({
     }
   },
   mounted() {
-    console.log(this.$refs.chart);
     if (this.$route.name == 'Home') {
       axios.get('http://localhost:3000/api/records/' + (new Date().getMonth() + 1) + '-' + new Date().getFullYear())
           .then((response: Record<string, any>) => {
@@ -76,8 +75,8 @@ export default Vue.extend({
               sum = 0;
               section.forEach(num => sum = sum + num);
               this.chartsOptions.datasets[0].data.push(sum);
-            })
-            this.$refs.chart.updateChart();
+            });
+            (this.$refs.charts as any).updateChart();
           })
           .catch((error: any) => {
             console.log(error);
@@ -94,8 +93,8 @@ export default Vue.extend({
               sum = 0;
               section.forEach(num => sum = sum + num);
               this.chartsOptions.datasets[0].data.push(sum);
-            })
-            this.$refs.chart.updateChart();
+            });
+            (this.$refs.charts as any).updateChart();
           })
           .catch((error: any) => {
             console.log(error);
@@ -118,6 +117,7 @@ export default Vue.extend({
   display: flex;
   justify-content: space-between;
   padding: 0 40px;
+  flex-grow: 1;
 }
 
 .dashboard-data {

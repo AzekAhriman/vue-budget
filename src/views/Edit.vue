@@ -2,12 +2,12 @@
   <div class="edit">
     <Header @saveChanges="saveChanges" @cancelChanges="cancelChanges" />
     <main class="editor">
-      <div class="editor-data" v-for="(block, blockIndex) in blocks" :key="blockIndex">
+      <div class="editor-data" v-for="(block, blockIndex) in blocks" :key="block">
         <button class="delete-block" @click="deleteBlock(blockIndex)">Delete block</button>
         <div class="editor-data-block">
           <div class="editor-data-block-name"><label><input type="text" v-model="blocks[blockIndex]"></label></div>
           <div class="editor-data-block-table">
-            <div class="editor-data-block-table-line" v-for="(value, index) in budgetCategories[blockIndex]" :key="index">
+            <div class="editor-data-block-table-line" v-for="(value, index) in budgetCategories[blockIndex]" :key="value">
               <div class="editor-data-block-table-line-name"><label><input type="text" v-model="budgetCategories[blockIndex][index]"></label></div>
               <div class="editor-data-block-table-line-value"><label><input type="number" v-model.number="budgetValues[blockIndex][index]"></label></div>
               <button class="delete-line" @click="deleteLine(blockIndex, index)">x</button>
@@ -28,7 +28,8 @@
 import Vue from 'vue';
 import Header from '@/components/header.vue';
 import Footer from '@/components/footer.vue';
-import axios from "axios";
+import axios from 'axios';
+import _ from 'lodash';
 
 export default Vue.extend({
   name: 'Edit',
@@ -45,9 +46,15 @@ export default Vue.extend({
   },
   methods: {
     addBlock() {
-      this.blocks.push('');
-      this.budgetCategories.push([]);
-      this.budgetValues.push([]);
+      // this.blocks.push('');
+      // this.budgetCategories.push([]);
+      // this.budgetValues.push([]);
+
+      // специально для lodash
+
+      _.concat(this.blocks, '')
+      _.concat(this.budgetCategories, [])
+      _.concat(this.budgetValues, [])
     },
     deleteBlock(index: number) {
       this.blocks.splice(index, 1);
@@ -68,10 +75,10 @@ export default Vue.extend({
           data: {blocks: this.blocks, budgetCategories: this.budgetCategories, budgetValues: this.budgetValues},
           id: this.$route.params.date
         })
-            .then(function (response: any) {
+            .then(function (response: unknown) {
               console.log(response);
             })
-            .catch(function (error: any) {
+            .catch(function (error: unknown) {
               console.log(error);
             })
       } else {
@@ -79,10 +86,10 @@ export default Vue.extend({
           data: {blocks: this.blocks, budgetCategories: this.budgetCategories, budgetValues: this.budgetValues},
           id: new Date().getMonth() + 2 == 13 ? 1 : new Date().getMonth() + 2
         })
-            .then(function (response: any) {
+            .then(function (response: unknown) {
               console.log(response);
             })
-            .catch(function (error: any) {
+            .catch(function (error: unknown) {
               console.log(error);
             })
       }
@@ -90,13 +97,13 @@ export default Vue.extend({
     cancelChanges() {
       if (this.$route.name == 'Edit') {
         axios.get('http://localhost:3000/api/records/' + this.$route.params.date)
-            .then((response: Record<string, any>) => {
+            .then((response: any) => {
               this.blocks = response.data.data.blocks;
               this.budgetCategories = response.data.data.budgetCategories;
               this.budgetValues = response.data.data.budgetValues;
               console.log(response.data.data);
             })
-            .catch((error: any) => {
+            .catch((error: unknown) => {
               console.log(error);
             })
       } else {
@@ -109,13 +116,13 @@ export default Vue.extend({
   created() {
     if (this.$route.name == 'Edit') {
       axios.get('http://localhost:3000/api/records/' + this.$route.params.date)
-          .then((response: Record<string, any>) => {
+          .then((response: any) => {
             this.blocks = response.data.data.blocks;
             this.budgetCategories = response.data.data.budgetCategories;
             this.budgetValues = response.data.data.budgetValues;
             console.log(response.data.data);
           })
-          .catch((error: any) => {
+          .catch((error: unknown) => {
             console.log(error);
           })
     }
