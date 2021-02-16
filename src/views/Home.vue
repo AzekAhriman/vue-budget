@@ -14,15 +14,19 @@
         </div>
       </div>
       <div class="dashboard-charts">
-        <Charts ref="charts" :chart-data="chartsOptions" :chart-type="chartType"  />
+        <BarChart ref="initChart" v-if="chartType === 'bar'" :chart-data="chartsOptions" />
+        <DoughnutChart v-if="chartType === 'doughnut'" :chart-data="chartsOptions" />
+        <LineChart v-if="chartType === 'line'" :chart-data="chartsOptions" />
+        <PolarChart v-if="chartType === 'polar'" :chart-data="chartsOptions" />
+        <RadarChart v-if="chartType === 'radar'" :chart-data="chartsOptions" />
+        <PieChart v-if="chartType === 'pie'" :chart-data="chartsOptions" />
         <div class="dashboard-charts-buttons">
-          <button class="dashboard-charts-button" @click="chartType = 'bar'">Bar</button>
-          <button class="dashboard-charts-button" @click="chartType = 'line'">Line</button>
-          <button class="dashboard-charts-button" @click="chartType = 'doughnut'">Doughnut</button>
-          <button class="dashboard-charts-button" @click="chartType = 'pie'">Pie</button>
-          <button class="dashboard-charts-button" @click="chartType = 'radar'">Radar</button>
-          <button class="dashboard-charts-button" @click="chartType = 'polarArea'">Polar</button>
-          <button class="dashboard-charts-button" @click="chartType = 'bubble'">Bubble</button>
+          <button class="dashboard-charts-button" @click="changeChart('bar')">Bar</button>
+          <button class="dashboard-charts-button" @click="changeChart('line')">Line</button>
+          <button class="dashboard-charts-button" @click="changeChart('doughnut')">Doughnut</button>
+          <button class="dashboard-charts-button" @click="changeChart('pie')">Pie</button>
+          <button class="dashboard-charts-button" @click="changeChart('radar')">Radar</button>
+          <button class="dashboard-charts-button" @click="changeChart('polarArea')">Polar</button>
         </div>
       </div>
     </main>
@@ -33,7 +37,12 @@
 <script lang="ts">
 import Vue from 'vue';
 import Header from '@/components/header.vue';
-import Charts from '@/components/charts.vue';
+import BarChart from '@/components/charts/barChart.vue';
+import DoughnutChart from '@/components/charts/doughnutChart.vue';
+import LineChart from '@/components/charts/lineChart.vue';
+import PolarChart from '@/components/charts/polarChart.vue';
+import RadarChart from '@/components/charts/radarChart.vue';
+import PieChart from '@/components/charts/pieChart.vue';
 import Footer from '@/components/footer.vue';
 import axios from "axios";
 
@@ -41,7 +50,12 @@ export default Vue.extend({
   name: 'Home',
   components: {
     Header,
-    Charts,
+    BarChart,
+    DoughnutChart,
+    LineChart,
+    PolarChart,
+    RadarChart,
+    PieChart,
     Footer
   },
   data() {
@@ -54,12 +68,25 @@ export default Vue.extend({
         datasets: [
           {
             label: 'Expenses',
-            backgroundColor: '#f87979',
+            backgroundColor: '#E46651' as any,
             data: [] as Array<number>
           }
         ]
       },
-      chartType: 'Bar'
+      chartType: 'bar',
+    }
+  },
+  methods: {
+    changeChart(type: string) {
+      this.chartType = type;
+      if(type == 'pie' || type == 'doughnut') {
+        this.chartsOptions.datasets[0].backgroundColor = []
+        this.chartsOptions.labels.forEach(() => {
+          this.chartsOptions.datasets[0].backgroundColor.push('#'+(Math.random()*0xFFFFFF<<0).toString(16))
+        })
+      } else {
+        this.chartsOptions.datasets[0].backgroundColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+      }
     }
   },
   mounted() {
@@ -76,7 +103,7 @@ export default Vue.extend({
               section.forEach(num => sum = sum + num);
               this.chartsOptions.datasets[0].data.push(sum);
             });
-            (this.$refs.charts as any).updateChart();
+            (this.$refs.initChart as any).updateChart();
           })
           .catch((error: any) => {
             console.log(error);
@@ -94,7 +121,7 @@ export default Vue.extend({
               section.forEach(num => sum = sum + num);
               this.chartsOptions.datasets[0].data.push(sum);
             });
-            (this.$refs.charts as any).updateChart();
+            (this.$refs.initChart as any).updateChart();
           })
           .catch((error: any) => {
             console.log(error);
