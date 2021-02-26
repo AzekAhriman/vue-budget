@@ -1,0 +1,24 @@
+.storybook-button {
+  border-radius: 5px;
+  color: white;
+  border: 1px solid black;
+  cursor: pointer;
+}
+.storybook-button--green {
+  background: green;
+}
+.storybook-button--red {
+  background: red;
+}
+.storybook-button--small {
+  padding: 5px;
+}
+.storybook-button--medium {
+  font-size: 15px;
+  padding: 7px;
+}
+.storybook-button--large {
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+}

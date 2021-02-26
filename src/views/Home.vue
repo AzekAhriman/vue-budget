@@ -12,6 +12,7 @@
             </div>
           </div>
         </div>
+        <button @click="debounceMethod">Debounce</button>
       </div>
       <div class="dashboard-charts">
         <BarChart ref="initChart" v-if="chartType === 'bar'" :chart-data="chartsOptions" />
@@ -45,6 +46,7 @@ import RadarChart from '@/components/charts/radarChart.vue';
 import PieChart from '@/components/charts/pieChart.vue';
 import Footer from '@/components/footer.vue';
 import axios from "axios";
+import _ from 'lodash';
 
 export default Vue.extend({
   name: 'Home',
@@ -87,7 +89,10 @@ export default Vue.extend({
       } else {
         this.chartsOptions.datasets[0].backgroundColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
       }
-    }
+    },
+    debounceMethod: _.debounce(() => {
+      console.log('Debounce button clicked!')
+    }, 1000)
   },
   mounted() {
     if (this.$route.name == 'Home') {
@@ -155,6 +160,10 @@ export default Vue.extend({
   border-radius: 5px;
   background-color: papayawhip;
   padding: 10px;
+}
+
+.dashboard-data button {
+  margin-top: 20px;
 }
 
 .dashboard-charts {

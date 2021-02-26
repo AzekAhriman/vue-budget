@@ -1,0 +1,118 @@
+svg {
+  display: inline-block;
+  vertical-align: top;
+}
+
+h1 {
+  margin: 0;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.header-name {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.header-logo {
+  position: absolute;
+  left: 40px;
+  top: 12px;
+  display: flex;
+  align-items: center;
+  color: black;
+  cursor: pointer;
+}
+
+.logo {
+  width: 80px;
+  margin-right: 20px;
+}
+
+.header-logo-text {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.header-logo-name {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.header-logo-motivation {
+  margin-top: 10px;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.header-buttons {
+  margin-top: 80px;
+  padding: 0 40px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-buttons-left {
+  display: flex;
+}
+
+.header-buttons-right {
+  display: flex;
+  align-items: center;
+}
+
+.add-expenses {
+  padding: 5px;
+  border-radius: 5px;
+  background: red;
+  color: white;
+}
+
+.show-history {
+  margin-right: 20px;
+  position: relative;
+  cursor: pointer;
+}
+
+.show-history-dropdown {
+  cursor: default;
+  position: absolute;
+  top: 25px;
+  left: 4px;
+  z-index: 999;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  background: azure;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 90px;
+  padding: 10px;
+  font-size: 14px;
+  height: 120px;
+  overflow: auto;
+}
+
+.show-history-dropdown a {
+  margin-top: 10px;
+  text-decoration: underline;
+}
+
+.show-history-dropdown a:first-of-type {
+  margin-top: 0;
+}
+
+.new-month {
+  padding: 5px;
+  border-radius: 5px;
+  background: green;
+  color: white;
+}
