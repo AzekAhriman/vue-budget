@@ -99,15 +99,17 @@ export default Vue.extend({
       axios.get('http://localhost:3000/api/records/' + (new Date().getMonth() + 1) + '-' + new Date().getFullYear())
           .then((response: Record<string, any>) => {
             let sum = 0;
-            this.blocks = response.data.data.blocks;
-            this.budgetCategories = response.data.data.budgetCategories;
-            this.budgetValues = response.data.data.budgetValues;
-            this.chartsOptions.labels = response.data.data.blocks;
-            this.budgetValues.forEach(section => {
-              sum = 0;
-              section.forEach(num => sum = sum + num);
-              this.chartsOptions.datasets[0].data.push(sum);
-            });
+            this.blocks = response.data?.data.blocks;
+            this.budgetCategories = response.data?.data.budgetCategories;
+            this.budgetValues = response.data?.data.budgetValues;
+            this.chartsOptions.labels = response.data?.data.blocks;
+            if(this.budgetValues) {
+              this.budgetValues.forEach(section => {
+                sum = 0;
+                section.forEach(num => sum = sum + num);
+                this.chartsOptions.datasets[0].data.push(sum);
+              });
+            }
             (this.$refs.initChart as any).updateChart();
           })
           .catch((error: any) => {

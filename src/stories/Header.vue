@@ -12,9 +12,9 @@
     </div>
     <div class="header-buttons">
       <div class="header-buttons-left">
-        <my-button red size="small" @addExpenses="addExpenses" label="+ Add expenses" v-if="!this.edit" />
-        <my-button green size="small" @saveChanges="saveChanges" label="Save" v-if="this.edit" />
-        <my-button red size="small" @cancelChanges="cancelChanges" label="Cancel" v-if="this.edit" />
+        <my-button red size="small" @onClick="addExpenses" label="+ Add expenses" v-if="!this.edit" />
+        <my-button green size="small" @onClick="saveChanges" label="Save" v-if="this.edit" />
+        <my-button red size="small" @onClick="cancelChanges" label="Cancel" v-if="this.edit" />
       </div>
       <div class="header-buttons-right">
         <my-button green size="small" @onClick="nextMonth" label="Next month +"/>
